@@ -1,6 +1,7 @@
 package br.edu.up.gerbib.modelos;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Livro
@@ -22,7 +23,8 @@ public class Livro
 		this.autor = autor;
 		this.genero = genero;
 		this.editora = editora;
-		this.nomeLivro = nomeLivro;		
+		this.nomeLivro = nomeLivro;
+		listaLivroBanco = new ArrayList<Livro>();
 	}
 	
 	
