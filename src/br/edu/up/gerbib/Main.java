@@ -1,6 +1,8 @@
 package br.edu.up.gerbib;
 
 import java.util.ArrayList;
+
+import java.util.List;
 import java.util.Scanner;
 
 import br.edu.up.gerbib.login.Adm;
@@ -12,9 +14,13 @@ import br.edu.up.gerbib.modelos.Livro;
 
 public class Main {
 
+	
 	public static void main(String[] args) {
 
+		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
+		List<Livro> listaLivroAdm = new ArrayList<Livro>();
+		//List<Livro> listaLivroUser = new ArrayList<Livro>();
 
 		/*
 		 * Login log = new Login(); log.setAdm("adm"); log.setSenha("123");
@@ -96,25 +102,45 @@ public class Main {
 						case 1:
 
 							char op_voltar;
-							do {
-								Livro livro;
+							do {					
 
 								System.out.print("Digite o nome do Livro: \n");
 								String nomeLivroAdm = sc.nextLine();
-								System.out.print("Digite o Autor: \n");
+								System.out.print("Digite o Autor: \n");													
 								String autorAdm = sc.nextLine();
 								System.out.print("Digite a editora: \n");
 								String editoraAdm = sc.nextLine();
 								System.out.print("Digite o gênero: \n");
 								String generoAdm = sc.nextLine();
-								livro = new Livro(new Autor(autorAdm), new Genero(generoAdm), new Editora(editoraAdm),
-										nomeLivroAdm);
-								livro.add_livro_adm(nomeLivroAdm);
+								listaLivroAdm.add(new Livro(new Autor(autorAdm), new Genero(generoAdm), new Editora(editoraAdm), nomeLivroAdm));					
+							
 								System.out.println("Deseja voltar ao menu anterior?(s/n)");
 								op_voltar = sc.next().charAt(0);
 								sc.nextLine();
 							} while (op_voltar == 'n');
 							break;
+						case 2:
+							System.out.println("Qual livro deseja remover?");
+							String livroRemover = sc.nextLine();							
+							for (Livro livro : listaLivroAdm) {
+								if (livro.getNomeLivro().equals(livroRemover)) {
+									listaLivroAdm.remove(livro);
+									break;
+								} else {
+									System.out.println("Livro não existe no banco de dados");
+								}
+							}
+							break;
+						case 3:
+							break;
+							
+						case 4:
+							for (Livro livro : listaLivroAdm) {
+								System.out.println(livro.getNomeLivro());
+							}
+							
+							break;
+						
 
 						default:
 							break;

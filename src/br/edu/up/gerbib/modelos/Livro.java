@@ -1,16 +1,12 @@
 package br.edu.up.gerbib.modelos;
 
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class Livro
 {
 	private String nomeLivro;
 	private Autor autor;
 	private Genero genero;
 	private Editora editora;
-	private List<Livro> listaLivroBanco;
+	//private List<Livro> listaLivroBanco;
 	//private List<Livro> listaLivroUser;	
 	
 	
@@ -24,10 +20,8 @@ public class Livro
 		this.genero = genero;
 		this.editora = editora;
 		this.nomeLivro = nomeLivro;
-		listaLivroBanco = new ArrayList<Livro>();
-	}
-	
-	
+		
+	}	
 	
 	public String getNomeLivro() {
 		return nomeLivro;
@@ -65,11 +59,6 @@ public class Livro
 	public void setEditora(Editora editora)
 	{
 		this.editora = editora;
-	}
-
-	public void add_livro_adm(String nomeLivro)
-	{
-		listaLivroBanco.add(new Livro(getAutor(), getGenero(), getEditora(), nomeLivro));				
 	}
 
 	@Override
