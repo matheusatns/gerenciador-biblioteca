@@ -14,13 +14,12 @@ import br.edu.up.gerbib.modelos.Livro;
 
 public class Main {
 
-	
 	public static void main(String[] args) {
 
 		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
 		List<Livro> listaLivroAdm = new ArrayList<Livro>();
-		//List<Livro> listaLivroUser = new ArrayList<Livro>();
+		// List<Livro> listaLivroUser = new ArrayList<Livro>();
 
 		/*
 		 * Login log = new Login(); log.setAdm("adm"); log.setSenha("123");
@@ -102,18 +101,20 @@ public class Main {
 						case 1:
 
 							char op_voltar;
-							do {					
+							do {
 
 								System.out.print("Digite o nome do Livro: \n");
 								String nomeLivroAdm = sc.nextLine();
-								System.out.print("Digite o Autor: \n");													
+								System.out.print("Digite o Autor: \n");
 								String autorAdm = sc.nextLine();
 								System.out.print("Digite a editora: \n");
 								String editoraAdm = sc.nextLine();
 								System.out.print("Digite o gênero: \n");
 								String generoAdm = sc.nextLine();
-								listaLivroAdm.add(new Livro(new Autor(autorAdm), new Genero(generoAdm), new Editora(editoraAdm), nomeLivroAdm));					
-							
+								listaLivroAdm.add(new Livro(new Autor(autorAdm), new Genero(generoAdm),
+										new Editora(editoraAdm), nomeLivroAdm));
+								
+								System.out.println("Livro adicionado ao banco de dados");
 								System.out.println("Deseja voltar ao menu anterior?(s/n)");
 								op_voltar = sc.next().charAt(0);
 								sc.nextLine();
@@ -121,27 +122,46 @@ public class Main {
 							break;
 						case 2:
 							System.out.println("Qual livro deseja remover?");
-							String livroRemover = sc.nextLine();							
+							String livroRemover = sc.nextLine();
+							if (listaLivroAdm.size() == 0) {
+								System.out.println("Livro não existe no banco de dados");
+							}
 							for (Livro livro : listaLivroAdm) {
 								if (livro.getNomeLivro().equals(livroRemover)) {
 									listaLivroAdm.remove(livro);
+									System.out.println("Livro removido do banco de dados");
 									break;
 								} else {
-									System.out.println("Livro não existe no banco de dados");
+									System.out.println("Livro não encontrado no banco de dados");
+									break;
 								}
 							}
 							break;
 						case 3:
-							break;
+							System.out.println("Qual livro você deseja buscar?");
+							String livroBuscar = sc.nextLine();
 							
+							if (listaLivroAdm.size() == 0) {
+								System.out.println("Livro não existe no banco de dados");
+							}
+							for (Livro livro : listaLivroAdm) {
+								if (livro.getNomeLivro().equals(livroBuscar)) {
+									System.out.println(livro.getNomeLivro().toString());
+									break;
+								} else {
+									System.out.println("Livro não existe no banco de dados");
+									break;
+								}
+							}
+							break;
 						case 4:
+							if (listaLivroAdm.size() == 0) {
+								System.out.println("Não existe livros no banco de dados");
+							}
 							for (Livro livro : listaLivroAdm) {
 								System.out.println(livro.getNomeLivro());
 							}
-							
 							break;
-						
-
 						default:
 							break;
 						}
