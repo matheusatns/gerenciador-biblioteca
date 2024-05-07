@@ -1,10 +1,12 @@
 package br.edu.up.gerbib;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
-
 import java.util.List;
 import java.util.Scanner;
 
+import br.edu.up.gerbib.fileman.FileManager;
 import br.edu.up.gerbib.login.Adm;
 import br.edu.up.gerbib.login.User;
 import br.edu.up.gerbib.modelos.Autor;
@@ -12,13 +14,20 @@ import br.edu.up.gerbib.modelos.Editora;
 import br.edu.up.gerbib.modelos.Genero;
 import br.edu.up.gerbib.modelos.Livro;
 
+
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 
 		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
 		List<Livro> listaLivroAdm = new ArrayList<Livro>();
+		File dir = new File("C:\\Banco_de_dados");
+		final String DEFAULT_FILE_NAME_ADM = "biblioteca_adm.txt";
+		final String DEFAULT_FILE_NAME_USER = "biblioteca_user.txt";
+		FileManager.createDir(dir);		
+		FileManager.createFileAdm(dir, DEFAULT_FILE_NAME_ADM);
+		FileManager.createFileUser(dir, DEFAULT_FILE_NAME_USER);
 		// List<Livro> listaLivroUser = new ArrayList<Livro>();
 
 		/*
@@ -37,7 +46,7 @@ public class Main {
 		do {
 			System.out.println("Usuário - 1\n" + "Administrador - 2\n" + "Cadastrar novo usuário - 3\n"
 					+ "Cadastrar novo administrador - 4");
-			int op_1 = sc.nextInt();
+			var op_1 = sc.nextInt();
 			sc.nextLine();
 			switch (op_1) {
 			case 1:
@@ -56,13 +65,21 @@ public class Main {
 					System.out.println("3 - Pesquisar um livro");
 					System.out.println("4 - Listar todos os seus livros");
 					System.out.println("5 - Voltar para o menu incial");
-					int op_2 = sc.nextInt();
+					var op_2 = sc.nextInt();
 
 					switch (op_2) {
 					case 1:
 
 						break;
-
+					case 2:
+						
+						break;
+					case 3:
+						
+						break;
+					case 4:
+						
+						break;
 					default:
 						break;
 					}
@@ -114,6 +131,7 @@ public class Main {
 								listaLivroAdm.add(new Livro(new Autor(autorAdm), new Genero(generoAdm),
 										new Editora(editoraAdm), nomeLivroAdm));
 								
+								FileManager.writeToFile("C:\\Banco_de_dados\\biblioteca_adm.txt", listaLivroAdm);								
 								System.out.println("Livro adicionado ao banco de dados");
 								System.out.println("Deseja voltar ao menu anterior?(s/n)");
 								op_voltar = sc.next().charAt(0);
@@ -129,7 +147,7 @@ public class Main {
 							for (Livro livro : listaLivroAdm) {
 								if (livro.getNomeLivro().equals(livroRemover)) {
 									listaLivroAdm.remove(livro);
-									System.out.println("Livro removido do banco de dados");
+									System.out.println();
 									break;
 								} else {
 									System.out.println("Livro não encontrado no banco de dados");
