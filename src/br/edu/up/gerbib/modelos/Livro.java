@@ -62,11 +62,12 @@ public class Livro
 	}
 
 	@Override
-	public String toString()
-	{
-		return "Livro [autor=" + getAutor() + ", genero=" + getGenero() + ", editora=" + getEditora() + "]";
+	public String toString() {
+		return "Livro [nomeLivro=" + nomeLivro + ", autor=" + autor + ", genero=" + genero + ", editora=" + editora
+				+ "]";
 	}
-	
+
+
 	
 	
 	

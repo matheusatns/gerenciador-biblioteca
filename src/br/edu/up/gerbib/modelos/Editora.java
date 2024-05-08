@@ -2,28 +2,28 @@ package br.edu.up.gerbib.modelos;
 
 public class Editora
 {
-	private String editora;
+	private String edit;
 
-	public Editora(String editora)
-	{
-		this.editora = editora;
+	public Editora(String edit) {
+		this.edit = edit;
 	}
 
-	public String getEditora()
-	{
-		return editora;
+	public String getEdit() {
+		return edit;
 	}
 
-	public void setEditora(String editora)
-	{
-		this.editora = editora;
+	public void setEdit(String edit) {
+		this.edit = edit;
 	}
 
 	@Override
-	public String toString()
-	{
-		return "Editora [editora=" + editora + "]";
+	public String toString() {
+		return "Editora [edit=" + edit + "]";
 	}
+	
+	
+
+
 	
 	
 }
