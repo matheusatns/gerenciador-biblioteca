@@ -2,35 +2,41 @@ package br.edu.up.gerbib.login;
 
 import java.util.HashMap;
 
-public class Adm extends Login
-{
-	private HashMap<String, String> cadastro_adm;
+public class Adm extends Login {
+	private static HashMap<String, String> cadastro_adm;
 
-	public Adm(String adm, String senha)
-	{
+	public Adm(String adm, String senha) {
 		super(adm, senha);
-		cadastro_adm = new HashMap<String, String>();
+		if (cadastro_adm == null) {
+			cadastro_adm = new HashMap<>();
+		}
 	}
-	
-	public boolean autenticar_adm(String adm, String senha)
-	{
-		if (cadastro_adm.containsKey(adm))
-		{
-			String senhaCadastrada = cadastro_adm.get(adm);
-			return senhaCadastrada.equals(senha);
-			
-		}else {
+
+	public Adm() {
+		if (cadastro_adm == null) {
+			cadastro_adm = new HashMap<>();
+		}
+	}
+
+	public boolean autenticar_adm(String adm, String senha) {
+		if (cadastro_adm == null || !cadastro_adm.containsKey(adm)) { // Verifica se cadastro_user é nulo ou se o
+			// usuário não existe
+			System.out.println("Administrador não existe.");
 			return false;
 		}
-		
+
+		String senhaCadastrada = cadastro_adm.get(adm);
+		return senhaCadastrada.equals(senha);
+
 	}
-	public void add_adm(String adm, String senha)
-	{
-		cadastro_adm.put(adm, senha);
+
+	public void add_adm(String senhaMestraDigitada) {
+		if (senhaMestraDigitada.equals(super.getSenhaMestra())) {
+			cadastro_adm.put(super.getLogin(), super.getSenha());
+			System.out.println("Novo administrador cadastrado com sucesso!");
+		} else {
+			System.out.println("Senha mestra incorreta! Não é possível adicionar um novo administrador.");
+		}
 	}
-	
-	
-	
-	
 
 }

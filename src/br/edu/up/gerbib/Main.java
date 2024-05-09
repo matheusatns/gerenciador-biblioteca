@@ -29,6 +29,7 @@ public class Main {
 		FileManager.createFileUser(dir, DEFAULT_FILE_NAME_USER);
 
 		do {
+			System.out.println("\n----- Faça seu login -----\n");
 			System.out.println("Usuário - 1\n" + "Administrador - 2\n" + "Cadastrar novo usuário - 3\n"
 					+ "Cadastrar novo administrador - 4");
 			var op_1 = sc.nextInt();
@@ -39,14 +40,13 @@ public class Main {
 				String user = sc.nextLine();
 				System.out.print("Senha user: ");
 				String senhaUser = sc.nextLine();
-				User user_object = new User(user, senhaUser);
-				user_object.add_user(user, senhaUser);
-				if (user_object.autenticar_user(user,
+				User userLogin = new User();
+				if (userLogin.autenticar_user(user,
 						senhaUser)) /* Testa se o usuário existe e se a senha e o login estão corretos */
 				{
 					int op_2;
 					do {
-						System.out.println("Bem vinda à sua biblioteca virtual!");
+						System.out.println("\n----- Bem vindo à sua biblioteca virtual! -----");
 						System.out.println("Escolha uma das opções: ");
 						System.out.println("1 - Adicionar um livro");
 						System.out.println("2 - remover um livro");
@@ -93,6 +93,9 @@ public class Main {
 
 					} while (op_2 != 5);
 					break;
+				} else {
+					System.out.println("Falha na autenticação do usuário!");
+					break;
 				}
 			case 2:
 				System.out.println("Login adm: ");
@@ -100,13 +103,10 @@ public class Main {
 				System.out.println("Senha adm: ");
 				String senha_adm = sc.nextLine();
 
-				Adm adm_object = new Adm(adm, senha_adm);
-				adm_object.add_adm(adm, senha_adm);/*
-													 * Fiz essa adição direta só pra testar, esse método só é pra ser
-													 * usado quando for CRIAR um adm
-													 */
-				if (adm_object.autenticar_adm(adm,
-						senha_adm))/* Mesma coisa que o teste do usuário, só que pra administrador */
+				Adm admLogin = new Adm();
+
+				if (admLogin.autenticar_adm(adm,
+						senha_adm))
 				{
 					int op_3;
 					do {
@@ -136,12 +136,7 @@ public class Main {
 								String generoAdm = sc.nextLine();
 								Livro livro = new Livro(new Autor(autorAdm), new Genero(generoAdm),
 										new Editora(editoraAdm), nomeLivroAdm);
-								/*
-								 * listaLivroAdm.add(new Livro(new Autor(autorAdm), new Genero(generoAdm), new
-								 * Editora(editoraAdm), nomeLivroAdm));
-								 */
 								FileManager.writeToFile(DEFAULT_FULL_PATH_ADM, livro);
-
 								System.out.println("Livro adicionado ao banco de dados");
 								System.out.println("Deseja adicionar mais um livro?(s/n)");
 								op_voltar = sc.next().charAt(0);
@@ -170,13 +165,30 @@ public class Main {
 						}
 
 					} while (op_3 != 5);
+					break;
 
+				} else {
+					System.out.println("Falha na autenticação do administrador!");
+					break;
 				}
 			case 3:
-
+				System.out.print("Novo usuário - Digite o login: ");
+				String novoUser = sc.nextLine();
+				System.out.print("Novo usuário - Digite a senha: ");
+				String novaSenhaUser = sc.nextLine();
+				User novoUserObject = new User(novoUser, novaSenhaUser);
+				novoUserObject.add_user();
+				System.out.println("Novo usuário cadastrado com sucesso!");
 				break;
 			case 4:
-
+				System.out.print("Novo administrador - Digite o login: ");
+				String novoAdm = sc.nextLine();
+				System.out.print("Novo administrador - Digite a senha: ");
+				String novaSenhaAdm = sc.nextLine();
+				Adm novoAdmObject = new Adm(novoAdm, novaSenhaAdm);
+				System.out.print("Digite a senha mestra para criar um novo administrador: ");
+				String senhaMestraDigitada = sc.nextLine();
+				novoAdmObject.add_adm(senhaMestraDigitada);
 				break;
 
 			default:

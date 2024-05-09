@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import br.edu.up.gerbib.modelos.Autor;
 import br.edu.up.gerbib.modelos.Editora;
 import br.edu.up.gerbib.modelos.Genero;
@@ -64,7 +63,7 @@ public final class FileManager {
 			linhasTemporarias.add(linha);
 		}
 
-		reader.close(); 
+		reader.close();
 		BufferedWriter writer = new BufferedWriter(new FileWriter(path));
 
 		// Variável para indicar se o livro foi removido
@@ -87,7 +86,6 @@ public final class FileManager {
 
 		writer.close(); // Fecha o escritor
 
-		
 		if (livroRemovido) {
 			System.out.println("Livro removido com sucesso!");
 		} else {
@@ -108,10 +106,8 @@ public final class FileManager {
 				String genero = partes[2].trim();
 				String editora = partes[3].trim();
 
-				
 				Livro livro = new Livro(new Autor(autor), new Genero(genero), new Editora(editora), nomeLivro);
 
-				
 				System.out.println("Nome do Livro: " + livro.getNomeLivro());
 				System.out.println("Autor: " + livro.getAutor().getNome());
 				System.out.println("Gênero: " + livro.getGenero().getGen());
@@ -139,11 +135,10 @@ public final class FileManager {
 
 				// Se o nome do livro encontrado corresponder ao nome do livro buscado
 				if (nomeLivroEncontrado.equalsIgnoreCase(nomeLivro)) {
-					
+
 					Livro livro = new Livro(new Autor(autor), new Genero(genero), new Editora(editora),
 							nomeLivroEncontrado);
 
-					
 					System.out.println("Livro encontrado:");
 					System.out.println("Nome do Livro: " + livro.getNomeLivro());
 					System.out.println("Autor: " + livro.getAutor().getNome());
@@ -162,162 +157,169 @@ public final class FileManager {
 			System.out.println("Livro não encontrado.");
 		}
 	}
+
 	private static boolean verificarLivroExistente(String path, String nomeLivro) throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(path));
 		String line;
-		
+
 		while ((line = reader.readLine()) != null) {
 			String[] partes = line.split(",");
-			
+
 			if (partes.length >= 1) {
 				String nomeLivroEncontrado = partes[0].trim();
-				
+
 				if (nomeLivroEncontrado.equalsIgnoreCase(nomeLivro)) {
 					reader.close();
 					return true;
 				}
 			}
 		}
-		
+
 		reader.close();
 		return false;
 	}
-	
+
 	private static void copiarLivroParaUsuario(String pathAdm, String pathUser, String nomeLivro) throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(pathAdm));
 		BufferedWriter writer = new BufferedWriter(new FileWriter(pathUser, true));
 		String line;
-		
+
 		while ((line = reader.readLine()) != null) {
 			String[] partes = line.split(",");
-			
+
 			if (partes.length >= 1) {
 				String nomeLivroEncontrado = partes[0].trim();
-				
+
 				if (nomeLivroEncontrado.equalsIgnoreCase(nomeLivro)) {
 					writer.write(line);
 					writer.newLine();
 				}
 			}
 		}
-		
+
 		reader.close();
 		writer.close();
 	}
+
 	public static void adicionarLivroUser(String pathAdm, String pathUser, String nomeLivro) throws IOException {
-	    // Verifica se o livro existe no arquivo do administrador
-	    boolean livroEncontrado = verificarLivroExistente(pathAdm, nomeLivro);
-	    
-	    if (livroEncontrado) {
-	        // Se o livro existe, copia para o arquivo do usuário
-	        copiarLivroParaUsuario(pathAdm, pathUser, nomeLivro);
-	        System.out.println("Livro adicionado com sucesso!");
-	    } else {
-	        System.out.println("Livro não encontrado no banco de dados do administrador. Não foi possível adicionar.");
-	    }
+		// Verifica se o livro existe no arquivo do administrador
+		boolean livroEncontrado = verificarLivroExistente(pathAdm, nomeLivro);
+
+		if (livroEncontrado) {
+			// Se o livro existe, copia para o arquivo do usuário
+			copiarLivroParaUsuario(pathAdm, pathUser, nomeLivro);
+			System.out.println("Livro adicionado com sucesso!");
+		} else {
+			System.out.println("Livro não encontrado no banco de dados do administrador. Não foi possível adicionar.");
+		}
 	}
-	
+
 	public static void removerLivroUser(String pathUser, String nomeLivro) throws IOException {
-	    boolean livroRemovido = removeFromFile(pathUser, nomeLivro);
-	    if (livroRemovido) {
-	        System.out.println("Livro removido com sucesso!");
-	    } else {
-	        System.out.println("Livro não encontrado na sua biblioteca. Nada foi removido.");
-	    }
+		boolean livroRemovido = removeFromFile(pathUser, nomeLivro);
+		if (livroRemovido) {
+			System.out.println("Livro removido com sucesso!");
+		} else {
+			System.out.println("Livro não encontrado na sua biblioteca. Nada foi removido.");
+		}
 	}
 
 	public static boolean removeFromFile(String path, String nomeLivro) throws IOException {
-	    List<String> linhasTemporarias = new ArrayList<>();
+		List<String> linhasTemporarias = new ArrayList<>();
 
-	    BufferedReader reader = new BufferedReader(new FileReader(path));
-	    String linha;
+		BufferedReader reader = new BufferedReader(new FileReader(path));
+		String linha;
 
-	    boolean livroRemovido = false;
+		boolean livroRemovido = false;
 
-	    while ((linha = reader.readLine()) != null) {
-	        String[] partes = linha.split(",");
+		while ((linha = reader.readLine()) != null) {
+			String[] partes = linha.split(",");
 
-	        if (partes.length >= 1) {
-	            String nomeLivroEncontrado = partes[0].trim();
+			if (partes.length >= 1) {
+				String nomeLivroEncontrado = partes[0].trim();
 
-	            if (!nomeLivroEncontrado.equalsIgnoreCase(nomeLivro)) {
-	                linhasTemporarias.add(linha);
-	            } else {
-	                livroRemovido = true;
-	            }
-	        }
-	    }
+				if (!nomeLivroEncontrado.equalsIgnoreCase(nomeLivro)) {
+					linhasTemporarias.add(linha);
+				} else {
+					livroRemovido = true;
+				}
+			}
+		}
 
-	    reader.close();
+		reader.close();
 
-	    BufferedWriter writer = new BufferedWriter(new FileWriter(path));
+		BufferedWriter writer = new BufferedWriter(new FileWriter(path));
 
-	    for (String linhaTemporaria : linhasTemporarias) {
-	        writer.write(linhaTemporaria);
-	        writer.newLine();
-	    }
+		for (String linhaTemporaria : linhasTemporarias) {
+			writer.write(linhaTemporaria);
+			writer.newLine();
+		}
 
-	    writer.close();
+		writer.close();
 
-	    return livroRemovido;
+		return livroRemovido;
 	}
 
 	public static void pesquisarLivroUser(String pathUser, String nomeLivro) throws IOException {
-	    BufferedReader reader = new BufferedReader(new FileReader(pathUser));
-	    String line;
-	    boolean livroEncontrado = false;
+		BufferedReader reader = new BufferedReader(new FileReader(pathUser));
+		String line;
+		boolean livroEncontrado = false;
 
-	    while ((line = reader.readLine()) != null) {
-	        String[] partes = line.split(",");
+		while ((line = reader.readLine()) != null) {
+			String[] partes = line.split(",");
 
-	        if (partes.length >= 1) {
-	            String nomeLivroEncontrado = partes[0].trim();
+			if (partes.length >= 1) {
+				String nomeLivroEncontrado = partes[0].trim();
 
-	            if (nomeLivroEncontrado.equalsIgnoreCase(nomeLivro)) {
-	                System.out.println("Livro encontrado:");
-	                System.out.println(line);
-	                livroEncontrado = true;
-	                break;
-	            }
-	        }
-	    }
+				if (nomeLivroEncontrado.equalsIgnoreCase(nomeLivro)) {
+					System.out.println("Livro encontrado:");
+					System.out.println("Nome do Livro: " + partes[0].trim());
+					System.out.println("Autor: " + partes[1].trim());
+					System.out.println("Gênero: " + partes[2].trim());
+					System.out.println("Editora: " + partes[3].trim());
+					livroEncontrado = true;
+					break;
+				}
+			}
+		}
 
-	    reader.close();
+		if (!livroEncontrado) {
+			System.out.println("Livro não encontrado na sua biblioteca.");
+		}
 
-	    if (!livroEncontrado) {
-	        System.out.println("Livro não encontrado na sua biblioteca.");
-	    }
+		reader.close();
 	}
 
 	public static void listarLivroUser(String pathUser) throws IOException {
-	    BufferedReader reader = new BufferedReader(new FileReader(pathUser));
-	    String line;
+		BufferedReader reader = new BufferedReader(new FileReader(pathUser));
+		String line;
+		boolean livrosEncontrados = false;
 
-	    while ((line = reader.readLine()) != null) {
-	        System.out.println(line);
-	    }
+		while ((line = reader.readLine()) != null) {
+			String[] partes = line.split(",");
 
-	    reader.close();
-	}
+			if (partes.length >= 4) {
+				String nomeLivro = partes[0].trim();
+				String autor = partes[1].trim();
+				String genero = partes[2].trim();
+				String editora = partes[3].trim();
 
+				Livro livro = new Livro(new Autor(autor), new Genero(genero), new Editora(editora), nomeLivro);
 
+				System.out.println("Nome do Livro: " + livro.getNomeLivro());
+				System.out.println("Autor: " + livro.getAutor().getNome());
+				System.out.println("Gênero: " + livro.getGenero().getGen());
+				System.out.println("Editora: " + livro.getEditora().getEdit());
+				System.out.println("---------------------------------------");
 
+				livrosEncontrados = true;
+			}
+		}
 
+		if (!livrosEncontrados) {
+			System.out.println("Não existem livros na biblioteca.");
+		}
 
-	public static void adicionarLivroUser() {
-
-	}
-
-	public static void removerLivroUser() {
-
-	}
-
-	public static void pesquisarLivroUser() {
-
-	}
-
-	public static void listarLivroUser() {
-
+		reader.close();
 	}
 
 }
